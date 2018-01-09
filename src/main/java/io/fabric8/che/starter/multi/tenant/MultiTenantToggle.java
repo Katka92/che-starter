@@ -16,7 +16,6 @@ import java.io.IOException;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,16 +60,17 @@ public class MultiTenantToggle {
     }
 
     public boolean isMultiTenant(final String keycloakToken) {
-        if (StringUtils.isBlank(keycloakToken)) {
-            return false;
-        }
-        try {
-            UnleashContext context = getContext(keycloakToken);
-            return unleash.isEnabled(FEATURE_NAME, context);
-        } catch (Throwable e) {
-            LOG.error("Unable to get UnleashContext from the Keycloak token", e);
-            return false;
-        }
+        return true;
+//        if (StringUtils.isBlank(keycloakToken)) {
+//            return false;
+//        }
+//        try {
+//            UnleashContext context = getContext(keycloakToken);
+//            return unleash.isEnabled(FEATURE_NAME, context);
+//        } catch (Throwable e) {
+//            LOG.error("Unable to get UnleashContext from the Keycloak token", e);
+//            return false;
+//        }
     }
 
     private UnleashContext getContext(final String keycloakToken) throws JsonProcessingException, IOException {

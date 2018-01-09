@@ -93,12 +93,20 @@ public class OpenShiftClientWrapper {
         if (toggle.isMultiTenant(keycloakToken)) {
             return multiTenantCheServerURL;
         }
+        if (masterUrl.equals("https://che.openshift.io")) {
+            LOG.info("RH-Che masterUrl");
+            return multiTenantCheServerURL;
+        }
+        if (masterUrl.contains("che-eclipse-che") && masterUrl.contains(".nip.io")) {
+            LOG.info("Minishift upstream che masterUrl");
+            return masterUrl;
+        }
         try (OpenShiftClient openShiftClient = this.get(masterUrl, osoToken)) {
             dc.deployCheIfSuspended(openShiftClient, namespace);
             String routeURL = route.getUrl(openShiftClient, namespace);
             LOG.info("Che server route URL {}", routeURL);
             return routeURL;
-        } 
+        }
     }
 
 }
